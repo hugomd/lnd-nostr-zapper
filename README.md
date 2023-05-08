@@ -5,6 +5,13 @@ A server which implements [LUD-06](https://github.com/lnurl/luds/blob/luds/06.md
 
 Heavily inspired by [fiatjaf/bridgeaddr](https://github.com/fiatjaf/bridgeaddr/tree/master) and [cln-nostr-zapper](https://github.com/jb55/cln-nostr-zapper/tree/master).
 
+# Installation
+
+A Docker container image is available via GitHub Container Registry:
+```
+docker pull ghcr.io/hugomd/lnd-nostr-zapper:d632602d
+```
+
 # Configuration
 Configuration is done via environment variables:
 
