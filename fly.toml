@@ -1,9 +1,5 @@
-# fly.toml app configuration file generated for floral-meadow-4273 on 2023-05-08T23:43:07+10:00
-#
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
 
-app = "floral-meadow-4273"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 primary_region = "syd"
