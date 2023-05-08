@@ -66,9 +66,10 @@ func WaitForZap(r_hash string, zapReq nostr.Event) {
 				zapReceipt := makeZapReceipt(config.NostrKey, publicKey, response.Result, zapReq)
 				log.Info().Interface("zapReceipt", zapReceipt).Msg("Built zap receipt")
 
-				relays := zapReq.Tags.GetAll([]string{"relays"})[0]
+				relays := zapReq.Tags.GetAll([]string{"relays"})[0][1:]
+				relaysWithDefaults := append(relays, config.Relays...)
 
-				for _, url := range relays[1:] {
+				for _, url := range relaysWithDefaults {
 					go publish(url, zapReceipt)
 				}
 			}

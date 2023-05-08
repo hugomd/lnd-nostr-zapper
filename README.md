@@ -28,3 +28,4 @@ Configuration is done via environment variables:
 | `WEBHOOK_URL`         | false    | `""`           | URL to call after successful payment. | 
 | `DESCRIPTION`         | false    | `"Send sats!"` | Description shown in LNURL metadata. | 
 | `IMAGE_URL`           | false    | `""`           | Optional avatar URL shown in LNURL metadata. | 
+| `RELAYS`              | false    | `""`           | Optional comma separated list of relays to publish zaps to, of the form: `wss://relay.damus.io,wss://brb.io`. | 

@@ -12,17 +12,18 @@ import (
 )
 
 type Config struct {
-	Host          string `envconfig:"HOST" default:"0.0.0.0"`
-	Port          string `envconfig:"PORT" default:"8080"`
-	Domain        string `envconfig:"DOMAIN" required:"true"`
-	LndHost       string `envconfig:"LND_HOST" required:"true"`
-	LndMacaroon   string `envconfig:"LND_MACAROON" required:"true"`
-	LndCert       string `envconfig:"LND_CERT" default:""`
-	NostrKey      string `envconfig:"NOSTR_KEY" required:"true"`
-	CommentLength int64  `envconfig:"COMMENT_LENGTH" default:"0"`
-	WebhookUrl    string `envconfig:"WEBHOOK_URL" default:""`
-	Description   string `envconfig:"DESCRIPTION" default:"Send sats!"`
-	ImageUrl      string `envconfig:"IMAGE_URL" default:""`
+	Host          string   `envconfig:"HOST" default:"0.0.0.0"`
+	Port          string   `envconfig:"PORT" default:"8080"`
+	Domain        string   `envconfig:"DOMAIN" required:"true"`
+	LndHost       string   `envconfig:"LND_HOST" required:"true"`
+	LndMacaroon   string   `envconfig:"LND_MACAROON" required:"true"`
+	LndCert       string   `envconfig:"LND_CERT" default:""`
+	NostrKey      string   `envconfig:"NOSTR_KEY" required:"true"`
+	CommentLength int64    `envconfig:"COMMENT_LENGTH" default:"0"`
+	WebhookUrl    string   `envconfig:"WEBHOOK_URL" default:""`
+	Description   string   `envconfig:"DESCRIPTION" default:"Send sats!"`
+	ImageUrl      string   `envconfig:"IMAGE_URL" default:""`
+	Relays        []string `envconfig:"RELAYS" default:""`
 }
 
 var config Config
