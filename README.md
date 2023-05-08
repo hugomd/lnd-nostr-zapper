@@ -9,7 +9,7 @@ Heavily inspired by [fiatjaf/bridgeaddr](https://github.com/fiatjaf/bridgeaddr/t
 
 A Docker container image is available via GitHub Container Registry:
 ```
-docker pull ghcr.io/hugomd/lnd-nostr-zapper:c1225c57
+docker pull ghcr.io/hugomd/lnd-nostr-zapper:e77cd011
 ```
 
 # Configuration
