@@ -26,7 +26,7 @@ type Invoice struct {
 	PreImage       string `json:"r_preimage"`
 }
 
-func WaitForZap(r_hash string, zapReq nostr.Event) {
+func WaitForZap(r_hash string, zapReq *nostr.Event) {
 	log.Info().Str("r_hash", r_hash).Msg("Waiting for Zap!")
 
 	publicKey, err := nostr.GetPublicKey(config.NostrKey)
@@ -63,7 +63,7 @@ func WaitForZap(r_hash string, zapReq nostr.Event) {
 
 		go func() {
 			if response.Result.State == "SETTLED" {
-				zapReceipt := makeZapReceipt(config.NostrKey, publicKey, response.Result, zapReq)
+				zapReceipt := makeZapReceipt(config.NostrKey, publicKey, response.Result, *zapReq)
 				log.Info().Interface("zapReceipt", zapReceipt).Msg("Built zap receipt")
 
 				relays := zapReq.Tags.GetAll([]string{"relays"})[0][1:]

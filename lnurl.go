@@ -46,22 +46,24 @@ func handleLNURL(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		zapReqStr, _ := url.QueryUnescape(r.URL.Query().Get("nostr"))
+		var zapReq *nostr.Event
+		if nostrParam, _ := url.QueryUnescape(r.URL.Query().Get("nostr")); nostrParam != "" {
+			if err := json.Unmarshal([]byte(nostrParam), &zapReq); err != nil {
+				log.Warn().Err(err).Msg("Failed to unmarshal zap request")
+				return
+			}
 
-		var zapReq nostr.Event
-		if err := json.Unmarshal([]byte(zapReqStr), &zapReq); err != nil {
-			log.Warn().Err(err).Msg("Failed to unmarshal zap request")
-			return
+			valid, _ := zapReq.CheckSignature()
+			if !valid {
+				log.Info().Msg("Zap request signature invalid")
+				return
+			}
+
+			log.Info().Interface("zap request", zapReq).Msg("Parsed zap request")
 		}
-		valid, err := zapReq.CheckSignature()
-		if !valid {
-			log.Info().Msg("Zap request signature invalid")
-			return
-		}
 
-		log.Info().Interface("zap request", zapReq).Msg("Parsed zap request")
+		bolt11, err := makeInvoice(username, msat, zapReq)
 
-		bolt11, err := makeInvoice(username, msat, zapReq.String())
 		if err != nil {
 			json.NewEncoder(w).Encode(
 				lnurl.ErrorResponse("failed to create invoice: " + err.Error()))
@@ -81,7 +83,11 @@ func handleLNURL(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				return
 			}
-			WaitForZap(inv.PaymentHash, zapReq)
+
+			if zapReq != nil {
+				WaitForZap(inv.PaymentHash, zapReq)
+			}
+
 			// send webhook
 			go sendWebhook(bolt11, r.URL.Query().Get("comment"), msat)
 		}()

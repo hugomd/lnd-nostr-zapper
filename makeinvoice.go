@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/fiatjaf/makeinvoice"
+	nostr "github.com/nbd-wtf/go-nostr"
 	"github.com/tidwall/sjson"
 )
 
@@ -25,10 +26,10 @@ func makeMetadata(username string) string {
 	return metadata
 }
 
-func makeInvoice(username string, msat int, zapReq string) (bolt11 string, err error) {
+func makeInvoice(username string, msat int, zapReq *nostr.Event) (bolt11 string, err error) {
 	var description string
-	if zapReq != "" {
-		description = zapReq
+	if zapReq != nil {
+		description = zapReq.String()
 	} else {
 		description = makeMetadata(username)
 	}
