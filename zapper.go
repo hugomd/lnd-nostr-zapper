@@ -69,21 +69,25 @@ func WaitForZap(r_hash string, zapReq nostr.Event) {
 				relays := zapReq.Tags.GetAll([]string{"relays"})[0]
 
 				for _, url := range relays[1:] {
-					log.Info().Str("relay", url).Msg("Connecting to relay")
-					relay, err := nostr.RelayConnect(context.Background(), url)
-					if err != nil {
-						log.Info().Err(err).Msg("Failed to connect to relay")
-						return
-					}
-					if _, err := relay.Publish(context.Background(), zapReceipt); err != nil {
-						log.Info().Err(err).Msg("Failed to publish event to relay")
-						return
-					}
-					log.Info().Str("relay", url).Str("ID", zapReceipt.GetID()).Msg("Published to relay")
+					go publish(url, zapReceipt)
 				}
 			}
 		}()
 	}
+}
+
+func publish(url string, zapReceipt nostr.Event) {
+	log.Info().Str("relay", url).Msg("Connecting to relay")
+	relay, err := nostr.RelayConnect(context.Background(), url)
+	if err != nil {
+		log.Info().Err(err).Msg("Failed to connect to relay")
+		return
+	}
+	if _, err := relay.Publish(context.Background(), zapReceipt); err != nil {
+		log.Info().Err(err).Msg("Failed to publish event to relay")
+		return
+	}
+	log.Info().Str("relay", url).Str("ID", zapReceipt.GetID()).Msg("Published to relay")
 }
 
 func makeZapReceipt(privateKey, publicKey string, invoice Invoice, zapReq nostr.Event) nostr.Event {
