@@ -12,6 +12,35 @@ A Docker container image is available via GitHub Container Registry:
 docker pull ghcr.io/hugomd/lnd-nostr-zapper:e77cd011
 ```
 
+# Deploying
+
+## Fly.io
+
+Install `flyctl`:
+
+```bash
+brew install flyctl
+```
+
+Clone this repository:
+```bash
+git clone git@github.com:hugomd/lnd-nostr-zapper.git && cd lnd-nostr-zapper
+```
+
+Set secret values, which will be available to the container as runtime
+environment variables:
+```bash
+flyctl secrets set NOSTR_KEY="NOSTR_PRIVATE_KEY_HERE"
+flyctl secrets set LND_MACAROON="LND_MACAROON_HERE"
+```
+
+Update the environment variables in [`fly.toml`](./fly.toml) (e.g. `LND_HOST`).
+
+Launch the application:
+```bash
+flyctl launch
+```
+
 # Configuration
 Configuration is done via environment variables:
 
