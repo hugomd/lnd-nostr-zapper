@@ -5,6 +5,13 @@ A server which implements [LUD-06](https://github.com/lnurl/luds/blob/luds/06.md
 
 Heavily inspired by [fiatjaf/bridgeaddr](https://github.com/fiatjaf/bridgeaddr/tree/master) and [cln-nostr-zapper](https://github.com/jb55/cln-nostr-zapper/tree/master).
 
+# Features
+* [x] Connecting to LND via Tor
+* [x] Zap receipts
+* [x] Publish zap receipts to a default set of relays
+* [x] Easy deployment with Fly.io
+* [x] Docker image
+
 # Installation
 
 A Docker container image is available via GitHub Container Registry:
