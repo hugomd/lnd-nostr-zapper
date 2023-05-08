@@ -1,0 +1,17 @@
+name: Docker Image
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ghcr.io/hugomd/lnd-nostr-zapper:${GITHUB_SHA:0:8}
+    - name: Push docker image
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        docker login -u "${{ github.actor }}" -p $GITHUB_TOKEN ghcr.io
+        docker push ghcr.io/hugomd/lnd-nostr-zapper:$(echo $GITHUB_SHA | head -c8)
