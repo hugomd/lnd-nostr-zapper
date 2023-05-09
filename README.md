@@ -34,6 +34,13 @@ Clone this repository:
 git clone git@github.com:hugomd/lnd-nostr-zapper.git && cd lnd-nostr-zapper
 ```
 
+Update the environment variables in [`fly.toml`](./fly.toml) (e.g. `LND_HOST`).
+
+Launch the application:
+```bash
+flyctl launch
+```
+
 Set secret values, which will be available to the container as runtime
 environment variables:
 ```bash
@@ -41,12 +48,8 @@ flyctl secrets set NOSTR_KEY="NOSTR_PRIVATE_KEY_HERE"
 flyctl secrets set LND_MACAROON="LND_MACAROON_HERE"
 ```
 
-Update the environment variables in [`fly.toml`](./fly.toml) (e.g. `LND_HOST`).
-
-Launch the application:
-```bash
-flyctl launch
-```
+This should deploy lnd-nostr-zapper to a `fly.dev` domain, which you can use to 
+receive zaps! ⚡️
 
 # Configuration
 Configuration is done via environment variables:
