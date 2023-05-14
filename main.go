@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/cretz/bine/tor"
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
@@ -26,6 +29,10 @@ type Config struct {
 	Relays        []string `envconfig:"RELAYS" default:""`
 }
 
+func (c Config) UsesTor() bool {
+	return strings.Contains(c.LndHost, ".onion")
+}
+
 var config Config
 var router = mux.NewRouter()
 
@@ -35,6 +42,23 @@ func main() {
 	err := envconfig.Process("", &config)
 	if err != nil {
 		log.Fatal().Err(err).Msg("couldn't process envconfig.")
+	}
+
+	if config.UsesTor() {
+		log.Info().Msg("Starting tor, please wait a few minutes..")
+		t, err := tor.Start(nil, &tor.StartConf{NoAutoSocksPort: true})
+		if err != nil {
+			log.Fatal().Err(err).Msg("Failed to start Tor")
+		}
+		defer t.Close()
+
+		dialCtx, dialCancel := context.WithTimeout(context.Background(), time.Minute)
+		defer dialCancel()
+
+		_, err = t.Dialer(dialCtx, nil)
+		if err != nil {
+			log.Fatal().Err(err).Msg("Failed to start Tor")
+		}
 	}
 
 	router.Path("/.well-known/lnurlp/{username}").Methods("GET", "OPTIONS").HandlerFunc(handleLNURL)

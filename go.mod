@@ -3,6 +3,7 @@ module github.com/hugomd/lnd-nostr-zapper
 go 1.20
 
 require (
+	github.com/cretz/bine v0.2.0
 	github.com/fiatjaf/go-lnurl v1.12.1
 	github.com/fiatjaf/makeinvoice v1.5.4
 	github.com/gorilla/mux v1.8.0
@@ -62,12 +63,12 @@ require (
 	github.com/tidwall/gjson v1.14.2 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
+	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/exp v0.0.0-20221106115401-f9659909a136 // indirect
-	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f // indirect
-	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/sys v0.8.0 // indirect
+	golang.org/x/term v0.8.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 )
 
 replace github.com/fiatjaf/go-lnurl => github.com/hugomd/go-lnurl v0.0.0-20230505085824-f1adc5bfdb48

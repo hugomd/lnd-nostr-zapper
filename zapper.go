@@ -48,6 +48,11 @@ func WaitForZap(r_hash string, zapReq *nostr.Event) {
 		"Grpc-Metadata-Macaroon": []string{config.LndMacaroon},
 	}
 	dialer := *websocket.DefaultDialer
+	if config.UsesTor() {
+		proxyUrl, _ := url.Parse("socks5://127.0.0.1:9050")
+		dialer.Proxy = http.ProxyURL(proxyUrl)
+	}
+
 	if config.LndCert != "" {
 		caCertPool := x509.NewCertPool()
 		caCertPool.AppendCertsFromPEM([]byte(config.LndCert))
@@ -55,10 +60,7 @@ func WaitForZap(r_hash string, zapReq *nostr.Event) {
 	} else {
 		dialer.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	}
-	if strings.Contains(config.LndHost, ".onion") {
-		proxyUrl, _ := url.Parse("socks5://127.0.0.1:9050")
-		dialer.Proxy = http.ProxyURL(proxyUrl)
-	}
+
 	conn, _, err := dialer.Dial(formatted, authHeader)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to dial")
