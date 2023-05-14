@@ -1,4 +1,2 @@
 #!/bin/sh
-tor &
-
-/main
+/golang/main

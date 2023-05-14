@@ -7,7 +7,9 @@ RUN cd /go/src/github.com/hugomd/lnd-nostr-zapper && \
     CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
 FROM alpine:3.18.0
-COPY --from=build /go/src/github.com/hugomd/lnd-nostr-zapper/main /
-COPY entrypoint.sh /entrypoint.sh
-RUN apk add ca-certificates tor
-ENTRYPOINT ["/entrypoint.sh"]
+WORKDIR /golang
+RUN adduser -D golang -h /golang && apk add ca-certificates tor
+USER golang
+COPY --from=build --chown=golang:0 /go/src/github.com/hugomd/lnd-nostr-zapper/main /golang
+COPY --chown=golang:0 entrypoint.sh /golang/entrypoint.sh
+ENTRYPOINT ["/golang/entrypoint.sh"]
