@@ -1,22 +1,25 @@
 # lnd-nostr-zapper
 
-A server which implements [LUD-06](https://github.com/lnurl/luds/blob/luds/06.md) (LNURLp) and
-[NIP-57](https://github.com/nostr-protocol/nips/blob/master/57.md).
+Self-host your own [zap](https://nostr.how/en/zaps) server to receive zaps
+directly to your own [Umbrel](https://umbrel.com)/LND node!
 
-Heavily inspired by [fiatjaf/bridgeaddr](https://github.com/fiatjaf/bridgeaddr/tree/master) and [cln-nostr-zapper](https://github.com/jb55/cln-nostr-zapper/tree/master).
+Heavily inspired by [fiatjaf/bridgeaddr](https://github.com/fiatjaf/bridgeaddr/tree/master) and [jb55/cln-nostr-zapper](https://github.com/jb55/cln-nostr-zapper/tree/master).
 
 # Features
-* [x] Connecting to LND via Tor
-* [x] Zap receipts
-* [x] Publish zap receipts to a default set of relays
+Implements [LUD-06](https://github.com/lnurl/luds/blob/luds/06.md) (LNURLp) and
+[NIP-57](https://github.com/nostr-protocol/nips/blob/master/57.md).
+
+* [x] Connect to LND via Tor
+* [x] Publish zap receipts
+* [x] Configure default relays for zap receipts
 * [x] Easy deployment with Fly.io
-* [x] Docker image
+* [x] Public Docker image
 
 # Installation
 
-A Docker container image is available via GitHub Container Registry:
+A Docker container image is available via [GitHub Container Registry](https://github.com/hugomd/lnd-nostr-zapper/pkgs/container/lnd-nostr-zapper):
 ```
-docker pull ghcr.io/hugomd/lnd-nostr-zapper:e77cd011
+docker pull ghcr.io/hugomd/lnd-nostr-zapper:e8de5840
 ```
 
 # Deploying
