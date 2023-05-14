@@ -34,12 +34,31 @@ Clone this repository:
 git clone git@github.com:hugomd/lnd-nostr-zapper.git && cd lnd-nostr-zapper
 ```
 
+### Set environment variables
+
 Update the environment variables in [`fly.toml`](./fly.toml) (e.g. `LND_HOST`).
+
+Most of the environment variables can be found on your Umbrel node by SSH'ing 
+in and running the commands below:
+
+To find your Tor hostname, run:
+```bash
+cat /home/umbrel/umbrel/tor/data/app-lightning-rest/hostname
+```
+
+To bake a macaroon run:
+```bash
+docker exec lightning_lnd_1 lncli bakemacaroon invoices:read invoices:write
+```
+
+### Deploy
 
 Launch the application:
 ```bash
 flyctl launch
 ```
+
+### Set secrets
 
 Set secret values, which will be available to the container as runtime
 environment variables:
@@ -51,6 +70,13 @@ flyctl secrets set LND_MACAROON="LND_MACAROON_HERE"
 This should deploy lnd-nostr-zapper to a `fly.dev` domain, which you can use to 
 receive zaps! ⚡️
 
+### Test!
+
+You can see it in action by running:
+```bash
+flyctl open "/.well-known/lnurlp/capybara"
+```
+
 # Configuration
 Configuration is done via environment variables:
 
@@ -61,7 +87,7 @@ Configuration is done via environment variables:
 | `DOMAIN`              | true     | N/A            | The domain associated with the server, used in the LNURL callback. | 
 | `LND_HOST`            | true     | N/A            | URL pointing to LND.                  | 
 | `LND_MACAROON`        | true     | N/A            | An invoice read/write macaroon for auth with LND. | 
-| `LND_CERT`            | false    | `""`           | Optional self-signed certificate to call LND. | 
+| `LND_CERT`            | false    | `""`           | Optional self-signed certificate to call LND. Don't set this if you run Umbrel. | 
 | `NOSTR_KEY`           | true     | N/A            | Nostr private key, used to publish zap receipts. | 
 | `COMMENT_LENGTH`      | false    | `0`            | Maximum length of associated comments, sent via webhook. | 
 | `WEBHOOK_URL`         | false    | `""`           | URL to call after successful payment. | 
