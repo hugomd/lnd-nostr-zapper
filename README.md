@@ -23,6 +23,9 @@ docker pull ghcr.io/hugomd/lnd-nostr-zapper:e77cd011
 
 ## Fly.io
 
+[Fly](https://fly.io) makes it easy to run Docker containers, and has a generous 
+free tier.
+
 Install `flyctl`:
 
 ```bash
