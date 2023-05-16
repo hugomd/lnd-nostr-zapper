@@ -52,6 +52,11 @@ To find your Tor hostname, run:
 cat /home/umbrel/umbrel/tor/data/app-lightning-rest/hostname
 ```
 
+`LND_HOST` should be of the form:
+```
+https://TOR_HOSTNAME:8080
+```
+
 To bake a macaroon run:
 ```bash
 docker exec lightning_lnd_1 lncli bakemacaroon invoices:read invoices:write
@@ -91,7 +96,7 @@ Configuration is done via environment variables:
 | `HOST`                | false    | `0.0.0.0`      | The host to bind the HTTP server to. | 
 | `PORT`                | false    | `8080`         | The port to bind the HTTP server to. | 
 | `DOMAIN`              | true     | N/A            | The domain associated with the server, used in the LNURL callback. | 
-| `LND_HOST`            | true     | N/A            | URL pointing to LND.                  | 
+| `LND_HOST`            | true     | N/A            | URL pointing to LND, followed by the REST API port. E.g. `https://example.onion:8080` | 
 | `LND_MACAROON`        | true     | N/A            | An invoice read/write macaroon for auth with LND. | 
 | `LND_CERT`            | false    | `""`           | Optional self-signed certificate to call LND. Don't set this if you run Umbrel. | 
 | `NOSTR_KEY`           | true     | N/A            | Nostr private key, used to publish zap receipts. | 
